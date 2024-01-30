@@ -1,3 +1,4 @@
+import OAuth from "../components/OAuth";
 import useSignUp from "../hooks/useSignUp"
 import { Link } from "react-router-dom"
 
@@ -19,6 +20,7 @@ const SignUp = () => {
         className="border p-3 rounded-lg" id='email' onChange={handleChance}/>
         <input type="text" placeholder="password" 
         className="border p-3 rounded-lg" id='password' onChange={handleChance}/>
+        <OAuth/>
         <button disabled={loading} className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:bg-opacity-95 disabled:opacity-80">{loading ? 'Loading...' : 'Sign up'}</button>
       </form>
       <div className="flex gap-2 mt-5">
