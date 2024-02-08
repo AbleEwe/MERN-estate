@@ -7,59 +7,65 @@ export const CreateListing = () => {
         imageUploadError, 
         uploading, 
         handleImageSubmit, 
-        handleRemoveImg 
+        handleRemoveImg, 
+        handleChange,
+        handleSubmit,
+        loading,
+        error 
     } = useCreateListing();
 
   return (
     <main className="p-3 max-w-4xl mx-auto">
         <h1 className="text-3xl font-semibold text-center my-7">Create a Lisiting</h1>
-        <form className="flex flex-col sm:flex-row gap-4">
+        <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-4">
             <div className="flex flex-col gap-4 flex-1">
-                <input type="text" placeholder="Name" className="border p-3 rounded-lg" id="name" maxLength='62' minLength='10' required/>
-                <textarea type="text" placeholder="Description" className="border p-3 rounded-lg" id="description" required/>
-                <input type="text" placeholder="Address" className="border p-3 rounded-lg" id="address" required/>
+                <input value={formData.name} onChange={handleChange} type="text" placeholder="Name" className="border p-3 rounded-lg" id="name" maxLength='62' minLength='10' required/>
+                <textarea value={formData.description} onChange={handleChange} type="text" placeholder="Description" className="border p-3 rounded-lg" id="description" required/>
+                <input value={formData.address} onChange={handleChange} type="text" placeholder="Address" className="border p-3 rounded-lg" id="address" required/>
                 <div className="flex gap-6 flex-wrap">
                     <div className="flex gap-2">
-                        <input type="checkbox" id="sale" className="w-5"/>
+                        <input checked={formData.type === "sale"} onChange={handleChange} type="checkbox" id="sale" className="w-5"/>
                         <span>Sell</span>
                     </div>
                     <div className="flex gap-2">
-                        <input type="checkbox" id="rent" className="w-5"/>
+                        <input checked={formData.type === "rent"} onChange={handleChange} type="checkbox" id="rent" className="w-5"/>
                         <span>Rent</span>
                     </div>
                     <div className="flex gap-2">
-                        <input type="checkbox" id="parking" className="w-5"/>
+                        <input checked={formData.parking} onChange={handleChange} type="checkbox" id="parking" className="w-5"/>
                         <span>Parking spot</span>
                     </div>
                     <div className="flex gap-2">
-                        <input type="checkbox" id="furnished" className="w-5"/>
+                        <input checked={formData.furnished} onChange={handleChange} type="checkbox" id="furnished" className="w-5"/>
                         <span>Furnished</span>
                      </div>
                      <div className="flex gap-2">
-                        <input type="checkbox" id="offer" className="w-5"/>
+                        <input checked={formData.offer} onChange={handleChange} type="checkbox" id="offer" className="w-5"/>
                         <span>Offer</span>
                     </div>
                 </div>
                 <div className="flex flex-wrap gap-6">
                     <div className="flex items-center gap-2">
-                        <input type="number" id="bedrooms" min="1" max="10" required className="p-3 border border-gray-300 rounded-lg"/>
-                        <p>Beds</p>
+                        <input value={formData.bedrooms} onChange={handleChange} type="number" id="bedrooms" min="1" max="10" required className="p-3 border border-gray-300 rounded-lg"/>
+                        <p>Bedrooms</p>
                     </div>
                     <div className="flex items-center gap-2">
-                        <input type="number" id="bathrooms" min="1" max="10" required className="p-3 border border-gray-300 rounded-lg"/>
+                        <input value={formData.bathrooms} onChange={handleChange} type="number" id="bathrooms" min="1" max="10" required className="p-3 border border-gray-300 rounded-lg"/>
                         <p>Bathrooms</p>
                     </div>
+                    {formData.offer && (
                     <div className="flex items-center gap-2">
-                        <input type="number" id="regularPrice" min="1" max="10" required className="p-3 border border-gray-300 rounded-lg"/>
+                        <input value={formData.discountPrice} onChange={handleChange} type="number" id="discountPrice" min="0" max="100000" required className="p-3 border border-gray-300 rounded-lg"/>
                         <div className="flex flex-col items-center">
-                            <p>Regular price</p>
+                            <p>Discounted price</p>
                             <span className="text-xs">($ / month)</span>
                         </div>
                     </div>
+                    )}
                     <div className="flex items-center gap-2">
-                        <input type="number" id="discountPrice" min="1" max="10" required className="p-3 border border-gray-300 rounded-lg"/>
+                        <input value={formData.regularPrice} onChange={handleChange} type="number" id="regularPrice" min="50" max="10000000" required className="p-3 border border-gray-300 rounded-lg"/>
                         <div className="flex flex-col items-center">
-                            <p>Discounted price</p>
+                            <p>Regular price</p>
                             <span className="text-xs">($ / month)</span>
                         </div>
                     </div>
@@ -86,7 +92,8 @@ export const CreateListing = () => {
                         </div>
                     ))
                 }
-            <button className="p-3 bg-slate-700 text-white rounded-lg uppercase hover:opacity-95 disabled::opacity-80">Create Listing</button>
+            <button disabled={loading || uploading} className="p-3 bg-slate-700 text-white rounded-lg uppercase hover:opacity-95 disabled::opacity-60">{loading ? 'Creating...' : 'Create listing'}</button>
+            {error && <p className="text-red-700 text-sm">{error}</p>}
             </div>
         </form>
     </main>
