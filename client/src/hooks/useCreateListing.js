@@ -1,12 +1,36 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
 import { app } from '../firebase';
 import { useSelector } from 'react-redux'
-import { useNavigate } from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 
-const useCreateListing = () => {
+
+const useCreateListing = (listingId) => {
     const {currentUser} = useSelector(state => state.user)
     const [files, setFiles] = useState([]);
+
+
+    useEffect(() => {
+        const fetchListing = async () => {
+            try {
+                const res = await fetch(`/api/listing/get/${listingId}`);
+                const data = await res.json();
+                if (data.success === false) {
+                    console.log(data.message);
+                } else {
+                    setFormData(data);
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        if (listingId) {
+            fetchListing();
+        }
+    }, [listingId]);
+    
+
     const [formData, setFormData] = useState({
         imageUrls: [],
         name: '',
@@ -134,7 +158,38 @@ const useCreateListing = () => {
         }
     }
 
-    return { formData, setFiles, imageUploadError, uploading, handleImageSubmit, handleRemoveImg, handleChange, handleSubmit, error, loading };
+    const handleSubmitUpdate = async (e) => {
+        e.preventDefault();
+        try {
+            if(formData.imageUrls.length < 1) return setError('You must upload atleast one image!');
+            if(+formData.regularPrice < +formData.discountPrice) return setError('Discount price must be lower than regular price!');
+            setLoading(true);
+            setError(false);
+            const res = await fetch(`/api/listing/update/${listingId}`, {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    ...formData,
+                    userRef: currentUser._id
+                }),
+              });
+              const data = await res.json();
+              setLoading(false);
+              if (data.success === false) {
+                setError(data.message);
+                return;
+              }
+              navigate(`/listing/${data._id}`)
+        } catch (error) {
+            setError(error.message);
+            setLoading(false);
+        }
+    }
+
+
+    return { formData, setFormData, setFiles, imageUploadError, uploading, handleImageSubmit, handleRemoveImg, handleChange, handleSubmit, handleSubmitUpdate, error, loading };
 }
 
 export default useCreateListing;
