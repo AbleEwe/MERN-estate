@@ -23,7 +23,7 @@ export const Contact = ({ listing }) => {
     return (
       <>
         {landlord && (
-          <div className='flex flex-col gap-2'>
+          <div className='flex flex-col gap-2 items-end'>
             <p>
               Contact <span className='font-semibold'>{landlord.username}</span>{' '}
               for{' '}
@@ -41,7 +41,7 @@ export const Contact = ({ listing }) => {
   
             <Link
             to={`mailto:${landlord.email}?subject=Regarding ${listing.name}&body=${message}`}
-            className='bg-slate-700 text-white text-center p-3 uppercase rounded-lg hover:opacity-95'
+            className='w-1/5 bg-slate-700 text-white text-center p-3 uppercase rounded-lg hover:opacity-95'
             >
               Send Message          
             </Link>

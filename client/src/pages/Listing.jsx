@@ -98,11 +98,11 @@ export const Listing = () => {
             {listing.address}
           </p>
           <div className='flex gap-4'>
-            <p className='bg-red-900 w-full max-w-[200px] text-white text-center p-1 rounded-md'>
+            <p className='bg-blue-950 w-full max-w-[200px] text-white text-center p-1 rounded-md'>
               {listing.type === 'rent' ? 'For Rent' : 'For Sale'}
             </p>
             {listing.offer && (
-              <p className='bg-green-900 w-full max-w-[200px] text-white text-center p-1 rounded-md'>
+              <p className='w-full max-w-[200px] text-center p-1 rounded-md font-semibold underline text-xl'>
                 ${+listing.regularPrice - +listing.discountPrice} OFF
               </p>
             )}
@@ -133,10 +133,19 @@ export const Listing = () => {
               {listing.furnished ? 'Furnished' : 'Unfurnished'}
             </li>
           </ul>
+          <div className='w-full h-96 sm:h-80 md:h-96 lg:h-120 xl:h-144'>
+          <iframe 
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3889.0711645397064!2d77.70188537491714!3d12.903145487405968!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae13995da03285%3A0x96db170b74d2d214!2sStreet%201522!5e0!3m2!1sen!2smx!4v1709773427918!5m2!1sen!2smx" 
+          width="100%"
+          height="100%"
+          allowFullScreen="" 
+          loading="lazy" referrerPolicy="no-referrer-when-downgrade"
+          title='responsive map'></iframe>
+          </div>
           {currentUser && listing.userRef !== currentUser._id && !contact && (
             <button
               onClick={() => setContact(true)}
-              className='bg-slate-700 text-white rounded-lg uppercase hover:opacity-95 p-3'
+              className='w-1/4 bg-slate-700 text-white rounded-lg uppercase hover:opacity-95 p-3'
             >
               Contact landlord
             </button>

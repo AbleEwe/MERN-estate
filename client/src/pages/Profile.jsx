@@ -118,7 +118,7 @@ const Profile = () => {
   return (
     <div className='p-3 max-w-lg mx-auto'>
       <h1 className="text-3xl font-semibold text-center my-7">Profile</h1>
-      <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
+      <form onSubmit={handleSubmit} className='flex flex-col gap-4 justify-center items-end'>
         <input onChange={(e)=>setFile(e.target.files[0])} type='file' ref={fileRef} hidden accept='image/*'/>
         <img onClick={()=>fileRef.current.click()} src={formData?.avatar || currentUser.avatar} alt='profile'
         className='rounded-full h-24 w-24  object-cover cursor-pointer self-center mt-2'/>
@@ -132,11 +132,11 @@ const Profile = () => {
             ""
           )}
         </p>
-        <input defaultValue={currentUser.username} type='text' placeholder='username' className='border p-3 rounded-lg' id='username' onChange={handleChance}/>
-        <input defaultValue={currentUser.email} type='text' placeholder='email' className='border p-3 rounded-lg' id='email' onChange={handleChance}/>
-        <input type='password' placeholder='password' className='border p-3 rounded-lg' id='password'/>
-        <button disabled={loading} className='bg-slate-700 text-white rounded-lg p-3 uppercase hover:opacity-80'>Save</button>
-        <Link className='bg-green-700 text-white p-3 rounded-lg uppercase text-center hover:opacity-95' to={"/create-listing"}>Create listing</Link>
+        <input defaultValue={currentUser.username} type='text' placeholder='username' className='w-full border p-3 rounded-lg' id='username' onChange={handleChance}/>
+        <input defaultValue={currentUser.email} type='text' placeholder='email' className='w-full border p-3 rounded-lg' id='email' onChange={handleChance}/>
+        <input type='password' placeholder='password' className='w-full border p-3 rounded-lg' id='password'/>
+        <button disabled={loading} className='w-1/3 bg-slate-700 text-white rounded-lg p-3 uppercase hover:opacity-80'>Save</button>
+        <Link className='w-1/3 bg-blue-900 text-white p-3 rounded-lg uppercase text-center hover:opacity-95' to={"/create-listing"}>Create listing</Link>
       </form>
       <div className='flex justify-between mt-5'>
         <span onClick={handleDeleteUser} className='text-red-700 cursor-pointer'>Delete Account</span>
@@ -144,7 +144,7 @@ const Profile = () => {
       </div>
       <p className='text-red-700'>{error ? error: ''}</p>
       <p className='text-green-700'>{updateSuccess ? 'User is updated successfully' : ""}</p>
-      <button onClick={handleShowListings} className='text-green-700 w-full'>Show Listings</button>
+      <button onClick={handleShowListings} className='text-gray-900 w-full'>Show Listings</button>
       <p className='text-red-700 mt-5'>{showListingsError ? 'Error showing listings' :  ''}</p>
             
       {userListings && userListings.length > 0 &&

@@ -55,7 +55,7 @@ export const CreateListing = () => {
                     </div>
                     {formData.offer && (
                     <div className="flex items-center gap-2">
-                        <input value={formData.discountPrice} onChange={handleChange} type="number" id="discountPrice" min="0" max="100000" required className="p-3 border border-gray-300 rounded-lg"/>
+                        <input value={formData.discountPrice} onChange={handleChange} type="number" id="discountPrice" min="0" max="10000000" required className="p-3 border border-gray-300 rounded-lg"/>
                         <div className="flex flex-col items-center">
                             <p>Discounted price</p>
                             <span className="text-xs">($ / month)</span>
